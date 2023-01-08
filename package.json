@@ -6,10 +6,7 @@
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
     "type-check": "tsc --noEmit",
-    "prestart": "npm run build",
-    "start": "node dist/src/server.js",
-    "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' src/server.ts",
-    "devstart": "yarn dev"
+    "start": "npx ts-node src/index.ts"
   },
   "engines": {
     "node": "^18.12.0",

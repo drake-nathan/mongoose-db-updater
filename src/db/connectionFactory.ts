@@ -1,19 +1,11 @@
 import { createConnection } from 'mongoose';
-import * as dotenv from 'dotenv';
 import { projectSchema } from './schemas/project';
 import { tokenSchema } from './schemas/token';
 import { transactionSchema } from './schemas/transaction';
 import { thumbnailSchema } from './schemas/thumbnail';
 import { levelSnapshotSchema } from './schemas/levelSnapshot';
 
-export const connectionFactory = async () => {
-  dotenv.config();
-  const dbConnectionString = process.env.DB_CONNECTION_STRING as string;
-
-  if (!dbConnectionString) {
-    throw new Error('DB_CONNECTION_STRING not found in .env');
-  }
-
+export const connectionFactory = async (dbConnectionString: string) => {
   const conn = await createConnection(dbConnectionString).asPromise();
 
   conn.addListener('error', (err) => {

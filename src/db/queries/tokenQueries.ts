@@ -49,7 +49,10 @@ export const getTokenAbbr = (
   return query.lean().exec() as Promise<TokenAbbr>;
 };
 
-export const getAllTokensFromProject = (project_slug: string, conn: Connection) => {
+export const getAllTokensFromProject = (
+  project_slug: string,
+  conn: Connection,
+) => {
   const Token = conn.model<IToken>('Token');
 
   const query = Token.find({ project_slug });
@@ -154,7 +157,10 @@ export const addToken = async (tokenToAdd: IToken, conn: Connection) => {
   return query;
 };
 
-export const getCurrentTokenSupply = async (project_id: number, conn: Connection) => {
+export const getCurrentTokenSupply = async (
+  project_id: number,
+  conn: Connection,
+) => {
   const Token = conn.model<IToken>('Token');
 
   const query = Token.find({ project_id });
@@ -174,7 +180,9 @@ export const getLevels = async (
 
   const query = Token.find({ project_slug });
 
-  query.select('token_id script_inputs.transfer_count script_inputs.level_shift');
+  query.select(
+    'token_id script_inputs.transfer_count script_inputs.level_shift',
+  );
 
   const results = await query.lean().exec();
 
@@ -215,7 +223,10 @@ export const updateTokenMetadataOnTransfer = async (
   return result;
 };
 
-export const removeDuplicateTokens = async (project_id: number, conn: Connection) => {
+export const removeDuplicateTokens = async (
+  project_id: number,
+  conn: Connection,
+) => {
   const Token = conn.model<IToken>('Token');
 
   const query = Token.aggregate([
@@ -273,6 +284,23 @@ export const updateOneTokenDesc = (
 
   const filter = { project_id, token_id };
   const update = { description: newDesc };
+  const options = { new: true };
+
+  const query = Token.updateOne(filter, update, options);
+
+  return query.exec();
+};
+
+export const updateOneTokenRootUrls = (
+  conn: Connection,
+  project_slug: string,
+  token_id: string | number,
+  newUrl: string,
+) => {
+  const Token = conn.model<IToken>('Token');
+
+  const filter = { project_slug, token_id };
+  const update = { generator_url: newUrl, animation_url: newUrl };
   const options = { new: true };
 
   const query = Token.updateOne(filter, update, options);
