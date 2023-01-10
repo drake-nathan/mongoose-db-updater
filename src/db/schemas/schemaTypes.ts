@@ -4,6 +4,8 @@ export enum ProjectId {
   chainlifeTestnet,
   chainlifeMainnet,
   mathare,
+  negativeCarbon,
+  crystallizedIllusions,
 }
 
 export enum Chain {

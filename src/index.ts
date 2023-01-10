@@ -1,9 +1,10 @@
 import * as dotenv from 'dotenv';
 import { type Connection } from 'mongoose';
-import { updateTokenUrls } from './currentJob';
 import { connectionFactory } from './db/connectionFactory';
+import { deleteAllTokensFromProject } from './db/queries/tokenQueries';
+import { ProjectId } from './db/schemas/schemaTypes';
 
-const main = async (env: 'local' | 'prod') => {
+const main = async (env: 'local' | 'prod', projectId: ProjectId) => {
   dotenv.config();
   const dbConnectionStrings = {
     local: process.env.DB_CONNECTION_STRING_LOCAL,
@@ -21,9 +22,9 @@ const main = async (env: 'local' | 'prod') => {
     if (!conn) throw new Error('Could not connect to database');
     else console.info('Connected to database');
 
-    const numOfUpdatedTokens = await updateTokenUrls(conn, env);
+    const deleteResult = await deleteAllTokensFromProject(conn, projectId);
 
-    console.info(`Updated ${numOfUpdatedTokens} tokens.`);
+    console.info(deleteResult);
   } catch (error) {
     console.error(error);
   } finally {
@@ -34,4 +35,4 @@ const main = async (env: 'local' | 'prod') => {
   }
 };
 
-main('prod');
+main('local', ProjectId.crystallizedIllusions);

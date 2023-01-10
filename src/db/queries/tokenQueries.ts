@@ -307,3 +307,16 @@ export const updateOneTokenRootUrls = (
 
   return query.exec();
 };
+
+export const deleteAllTokensFromProject = (
+  conn: Connection,
+  project_id: ProjectId,
+) => {
+  const Token = conn.model<IToken>('Token');
+
+  const query = Token.deleteMany({
+    project_id,
+  });
+
+  return query.exec();
+};

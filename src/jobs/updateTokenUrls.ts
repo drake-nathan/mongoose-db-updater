@@ -2,7 +2,7 @@ import { type Connection } from 'mongoose';
 import {
   getAllTokensFromProject,
   updateOneTokenRootUrls,
-} from './db/queries/tokenQueries';
+} from '../db/queries/tokenQueries';
 
 const projectSlugs = {
   local: 'chainlife-testnet',
